@@ -1,36 +1,18 @@
 <!DOCTYPE HTML>
 <html>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="conf.js"></script>
+<link rel="stylesheet" href="main.css">
+
 <body>
-    <span id="uptime"></span><br>
+
+    <span id="chart"></span><br>
+    <span id="Readings"></span><br>
     <span id="tstamp"></span>
 
     <br><br>
-    <button onclick="start()">Connect</button>
-<script src="conf.js"></script>
-    <script type="text/javascript">
-    function start() {
-
-        document.getElementById("uptime").innerHTML = "Waiting for data...";
-        // var deviceID = "300031000347343138333038";
-        // var accessToken = "91d9c50845c3114769fcf567257e6821ed8670aa";
-        var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceID + "/events/?access_token=" + accessToken);
-
-        eventSource.addEventListener('open', function(e) {
-            console.log("Opened!"); },false);
-
-        eventSource.addEventListener('error', function(e) {
-            console.log("Errored!"); },false);
-
-        eventSource.addEventListener('Uptime', function(e) {
-            var parsedData = JSON.parse(e.data);
-            var tempSpan = document.getElementById("uptime");
-            var tsSpan   = document.getElementById("tstamp");
-            tempSpan.innerHTML += " Reading: " + parsedData.data +"<br>"; //"Core: " + parsedData.coreid +
-            tempSpan.style.fontSize = "28px";
-            tsSpan.innerHTML = "Last timestamp " + parsedData.published_at;
-            tsSpan.style.fontSize = "20px";
-        }, false);
-    }
-    </script>
+    <button id="start">Connect</button>
+<script src="bundle.js"></script>
+    
 </body>
 </html>
