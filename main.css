@@ -4,7 +4,7 @@ svg {
 .line {
   fill: none;
   stroke: #191970;
-  stroke-width: 1.5px;
+  stroke-width: 3px;
 }
 .axis path,
 .axis line {

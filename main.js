@@ -19,11 +19,11 @@ function start() {
             var parsedData = JSON.parse(e.data);
             var tempSpan = document.getElementById("Readings");
             var tsSpan   = document.getElementById("tstamp");
-            tempSpan.innerHTML += " Reading: " + (parsedData.data) +"<br>"; //"Core: " + parsedData.coreid +
+            tempSpan.innerHTML += " Reading: " + (parsedData.data-70) +"<br>"; //"Core: " + parsedData.coreid +
             tempSpan.style.fontSize = "28px";
             tsSpan.innerHTML = "Last timestamp " + parsedData.published_at;
             tsSpan.style.fontSize = "20px";
-            tick(parsedData.data-80);
+            tick(parsedData.data-70);
         }, false);
     }
 
@@ -38,7 +38,7 @@ var x = d3.scale.linear()
     .domain([0, n - 1])
     .range([0, width]);
 var y = d3.scale.linear()
-    .domain([0, 1000])
+    .domain([0, 500])
     .range([height, 0]);
 var line = d3.svg.line()
     .x(function(d, i) { return x(i); })
