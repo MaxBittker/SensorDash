@@ -1,14 +1,26 @@
+html{
+	font-family: 	"Lucida Console", Monaco, monospace;
+}
 svg {
   font: 10px sans-serif;
+  	background: #000
+
 }
 .line {
   fill: none;
-  stroke: #191970;
-  stroke-width: 3px;
+  stroke: #f0f8ff;
+  stroke-width: 10px;
 }
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #fff;
   shape-rendering: crispEdges;
 }
+
+/*#Readings
+{
+	max-height: 100px;
+	    overflow: scroll;
+
+}*/
