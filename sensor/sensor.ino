@@ -1,77 +1,49 @@
-// This #include statement was automatically added by the Spark IDE.
+// This #include statement was automatically added by the Particle IDE.
+#include "EmonLib/EmonLib.h"
 
-/*#include "HttpClient/HttpClient.h"*/
-#include "application.h"
-#include "EmonLib.h"
+// This #include statement was automatically added by the Particle IDE.
+// #include "EmonLib.h"
+
+// EmonLibrary examples openenergymonitor.org, Licence GNU GPL V3
 #include <string.h>
-/*
-HttpClient http;
-http_request_t request;
-http_response_t response;
-http_header_t headers[] = {
-
-      { "Content-type", "application/x-www-form-urlencoded" },
-    { NULL, NULL } // NOTE: Always terminate headers will NULL
-};*/
-
+// #include "EmonLib.h"                   // Include Emon Library
 EnergyMonitor emon1;                   // Create an instance
-/*TCPClient client;*/
-const int voltage = 220;
-double average = 0.0; // interval at which to do something (millisecond)
-double sum = 0.0; // interval at which to do something (milliseconds)
-int count = 0; // interval at which to do something (milliseconds)
-
-static unsigned long secondInterval = 1000;
-static unsigned long minuteInterval = 57000;
-static unsigned long prevMinute = 0;
-static unsigned long prevSecond = 0;
-unsigned long now;
-
+char publishString[40];
 void setup()
-{
-  Serial.begin(9600);
-  emon1.current(0, 103.1);
+
+{  
+//   Serial.begin(9600);
+  
+  emon1.current(0, 111.1);             // Current: input pin, calibration.
 }
-
-
 
 void loop()
-
 {
-   unsigned long currentMillis = millis();
-    if ((unsigned long)(currentMillis - prevSecond) < secondInterval){
-    return;
-        }
-    else{
+  double Irms = emon1.calcIrms(1480)*230.0;  // Calculate Irms only
+  sendWatts(Irms);
+//   Serial.print(Irms*230.0);         // Apparent power
+//   Serial.print(" ");
+//   Serial.println(Irms);             // Irms
+    // double dd = 5000;
+    //   sprintf(publishString,"%f : Reading %f",Irms,dd);
 
-        double Irms = emon1.calcIrms(1480);  // Calculate Irms only
-        //double watts = (Irms*voltage) - 16;  // Calculate Irms only
-        double watts = (Irms*1000) ;  // Calculate Irms only
-        sum = sum + watts;
-        count = count + 1;
-        if ((unsigned long)(currentMillis - prevMinute) < minuteInterval){
-        return;
-        }
-        else{
-            average = sum/count;
-            sendWatts(average);
-            average = 0.0;
-            sum = 0.0;
-            count = 0;
-            prevMinute = currentMillis;
-        }
-        prevSecond = currentMillis;
-        }
+        // Spark.publish("Uptime",publishString);
+        delay(3000);
 }
 
-void sendWatts(double wattreading){
-    String val = "watts=" + doubleToString(wattreading,2);
+
+
+void sendWatts(double wattreading)
+{
+    String val = doubleToString(wattreading,0);
+    // "watts=" +
     /*request.hostname = "yourhost.com";*/
     /*request.port = 80;*/
     /*request.path = "/php/insertConsumption.php";*/
     /*request.body = val ;*/
     /*http.post(request, response, headers);*/
-    Spark.publish("Uptime",String);
+    Particle.publish("Readings",val);
+    
 
 }
 
